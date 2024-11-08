@@ -1,4 +1,6 @@
 #include <iostream>
+#include <map>
+
 
 void printMenu()
 {
@@ -19,6 +21,34 @@ void printMenu()
 
 }
 
+void printHelp(){
+
+}
+
+void printMarketStats()
+{
+    std::cout << "Market looks goog"<< std::endl;
+}
+            
+void enterOffer()
+{
+    std::cout << "Mark and offer - enter the amount" << std::endl;
+}
+
+void enterBid()
+{
+    std::cout << "Make a bid - enter the amount" << std::endl;
+}
+
+void printWallet()
+{
+    std::cout << "You wallet is empty." << std::endl;
+}
+void gotoNextTimefrme()
+{
+    std::cout << "Going to next time frame." << std::endl;
+}
+
 int getUserOption()
 {
     std::cout << "Type in 1-6" << std::endl;
@@ -33,26 +63,25 @@ void processUserOption(int userOption)
     switch (userOption)
         {
         case 1:
-            std::cout << "Help - your am is to make money. Analyse the market and make bids and offer" << std::endl;
+            printHelp();
             break;
         case 2:
-            std::cout << "Market looks goog"<< std::endl;
+            printMarketStats();
             break;
         case 3:
-            std::cout << "Mark and offer - enter the amount" << std::endl;
+            enterOffer();
             break;
         case 4:
-            std::cout << "Make a bid - enter the amount" << std::endl;
+            enterBid();
             break;
         case 5:
-            std::cout << "You wallet is empty." << std::endl;
+            printWallet();
             break;
         case 6:
-            std::cout << "Going to next time frame." << std::endl;
+            gotoNextTimefrme();
             break;
 
         default:
-            std::cout << "Invalid choice. Choose 1-6" << std::endl;
             break;
         }
 }
@@ -68,11 +97,23 @@ void menu()
 
 int main()
 {
+    // map from ints to function pointers
+    std::map<int, void(*)()> menu;
+    // connect 1 to the printHelp function
+    menu[1] = printHelp;
+    menu[2] = printMarketStats;
+    menu[3] = enterOffer;
+    menu[4] = enterBid;
+    menu[5] = printWallet;
+    menu[6] = gotoNextTimefrme;
+
     while (true)
     {   
         printMenu();
         int userOption = getUserOption();
-        processUserOption(userOption);
+        std::cout << "Map work" << std::endl;
+        menu.find(userOption)->second;
+        // processUserOption(userOption);
     }
 
     return 0;
