@@ -1,4 +1,6 @@
 #include <iostream>
+#include <string>
+#include <vector>
 #include <map>
 
 
@@ -22,7 +24,7 @@ void printMenu()
 }
 
 void printHelp(){
-
+    std::cout << "Help - your aim is to make money. Analyse the market and make bids and offers. " << std::endl;
 }
 
 void printMarketStats()
@@ -58,43 +60,6 @@ int getUserOption()
     return userOption;
 }
 
-void processUserOption(int userOption)
-{
-    switch (userOption)
-        {
-        case 1:
-            printHelp();
-            break;
-        case 2:
-            printMarketStats();
-            break;
-        case 3:
-            enterOffer();
-            break;
-        case 4:
-            enterBid();
-            break;
-        case 5:
-            printWallet();
-            break;
-        case 6:
-            gotoNextTimefrme();
-            break;
-
-        default:
-            break;
-        }
-}
-
-void menu()
-{   
-    // в примере тип int
-    int userOption = getUserOption();
-
-    processUserOption(userOption);
-    
-}
-
 int main()
 {
     // map from ints to function pointers
@@ -107,13 +72,37 @@ int main()
     menu[5] = printWallet;
     menu[6] = gotoNextTimefrme;
 
+    enum class OrderBookType{bid, ask};
+
+    // Declaring a structure
+    struct Order {
+        double price;
+        double amount;
+        std::string timestamp;
+        std::string product;
+        OrderBookType orderType;
+    };
+
+
+    // Declaring the vector of structs
+    struct Order temp1 = { 5319.450228, 0.00020075, "2020/03/17 17:01:24.884492", "BTC/USDT", OrderBookType::ask};
+    struct Order temp2 = { 0.02187308, 7.44564869, "2020/03/17 17:01:24.884492", "ETH/BTC", OrderBookType::bid};
+    std::vector<Order> orders;
+
+    orders.push_back(temp1);
+    orders.push_back(temp2);
+
+    for (auto& a : orders) {
+        std::cout << a.price << "             "
+             << a.amount << "          "
+             << a.timestamp << std::endl;
+    }
+
     while (true)
     {   
         printMenu();
         int userOption = getUserOption();
-        std::cout << "Map work" << std::endl;
-        menu.find(userOption)->second;
-        // processUserOption(userOption);
+        menu.find(userOption)->second();
     }
 
     return 0;
