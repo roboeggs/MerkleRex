@@ -3,6 +3,42 @@
 #include <vector>
 #include <map>
 
+enum class OrderBookType{bid, ask};
+
+class OrderBookEntry
+    {
+        private:
+            /* data */
+        public:
+            double price;
+            double amount;
+            std::string timestamp;
+            std::string product;
+            OrderBookType orderType;
+            OrderBookEntry(double price,
+            double amount,
+            std::string timestamp,
+            std::string product,
+            OrderBookType orderType);
+            ~OrderBookEntry();
+        };
+        
+        OrderBookEntry::OrderBookEntry(double price,
+                                double amount,
+                                std::string timestamp,
+                                std::string product,
+                                OrderBookType orderType)
+        : price(price), 
+          amount(amount), 
+          timestamp(timestamp), 
+          product(product), 
+          orderType(orderType)
+        {
+        }
+        
+        OrderBookEntry::~OrderBookEntry()
+        {
+};
 
 void printMenu()
 {
@@ -72,31 +108,50 @@ int main()
     menu[5] = printWallet;
     menu[6] = gotoNextTimefrme;
 
-    enum class OrderBookType{bid, ask};
 
-    // Declaring a structure
-    struct Order {
-        double price;
-        double amount;
-        std::string timestamp;
-        std::string product;
-        OrderBookType orderType;
-    };
+    // // Declaring a structure
+    // struct Order {
+    //     double price;
+    //     double amount;
+    //     std::string timestamp;
+    //     std::string product;
+    //     OrderBookType orderType;
+    // };
 
 
-    // Declaring the vector of structs
-    struct Order temp1 = { 5319.450228, 0.00020075, "2020/03/17 17:01:24.884492", "BTC/USDT", OrderBookType::ask};
-    struct Order temp2 = { 0.02187308, 7.44564869, "2020/03/17 17:01:24.884492", "ETH/BTC", OrderBookType::bid};
-    std::vector<Order> orders;
+    // // Declaring the vector of structs
+    // struct Order temp1 = { 5319.450228, 0.00020075, "2020/03/17 17:01:24.884492", "BTC/USDT", OrderBookType::ask};
+    // struct Order temp2 = { 0.02187308, 7.44564869, "2020/03/17 17:01:24.884492", "ETH/BTC", OrderBookType::bid};
+    // std::vector<Order> orders;
 
-    orders.push_back(temp1);
-    orders.push_back(temp2);
+    // orders.push_back(temp1);
+    // orders.push_back(temp2);
 
-    for (auto& a : orders) {
-        std::cout << a.price << "             "
-             << a.amount << "          "
-             << a.timestamp << std::endl;
+    std::vector<OrderBookEntry> orders;
+    orders.push_back(
+        OrderBookEntry{5319.450228, 0.00020075, 
+            "2020/03/17 17:01:24.884492", 
+            "BTC/USDT", 
+            OrderBookType::ask}
+    );
+    
+
+    orders.push_back(
+        OrderBookEntry{0.02187308, 7.44564869, 
+        "2020/03/17 17:01:24.884492", 
+        "ETH/BTC", 
+        OrderBookType::bid}
+    );
+
+    for(OrderBookEntry& order: orders){
+        std::cout << order.amount << std::endl;
     }
+
+    // for (auto& a : orders) {
+    //     std::cout << a.price << "             "
+    //          << a.amount << "          "
+    //          << a.timestamp << std::endl;
+    // }
 
     while (true)
     {   
