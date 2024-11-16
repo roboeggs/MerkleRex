@@ -17,6 +17,7 @@ Debug/
 Release/
 
 # Ignore IDE specific files
+.vs/
 .vscode/
 *.code-workspace
 *.sln
@@ -30,6 +31,7 @@ CMakeFiles/
 CMakeCache.txt
 cmake_install.cmake
 Makefile
+CMakePresets.json
 
 # Ignore generated documentation
 docs/
