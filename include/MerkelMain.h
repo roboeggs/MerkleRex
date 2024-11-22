@@ -1,20 +1,28 @@
+#pragma once
+
 #include <map>
+#include <vector>
+#include "OrderBookEntry.h"
 
 class MerkelMain
 {
 private:
-    // Карта для хранения указателей на методы
+    // A map for storing pointers to methods
     std::map<int, void(MerkelMain::*)()> menu;
-
-public:
-    MerkelMain();
-    void init();
+    std::vector<OrderBookEntry> orders;
+    void loadOrderBook();
     void printMenu();
     void printHelp();
     void printMarketStats();           
     void enterOffer();
     void enterBid();
     void printWallet();
-    void gotoNextTimefrme();
+    void gotoNextTimeframe();
     int getUserOption();
+
+public:
+    MerkelMain();
+    /** Call this to start the sim */
+    void init();
+    
 };
