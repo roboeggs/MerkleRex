@@ -1,4 +1,5 @@
 #include "MerkelMain.h"
+#include "CSVReader.h"
 
 #include <string>
 #include <vector>
@@ -87,6 +88,8 @@ int main()
         std::cerr << "Could not open file" << std::endl;
     }
 
+
+    CSVReader reader;
 
     return 0;
 

@@ -5,7 +5,7 @@
 
 #include <string>
 
-enum class OrderBookType { bid, ask };
+enum class OrderBookType { bid, ask, unknown };
 
 class OrderBookEntry {
 public:
@@ -20,6 +20,8 @@ public:
                    std::string timestamp,
                    std::string product,
                    OrderBookType orderType);
+
+    static OrderBookType stringToOrderBookType(std::string s);
 
     ~OrderBookEntry();
 };
