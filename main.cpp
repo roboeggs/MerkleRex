@@ -4,8 +4,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
-#include <sstream>
-#include <fstream>
+
 
 /*
 std::vector<std::string> tokenise(std::string csvLine, char separator)
@@ -37,61 +36,14 @@ std::vector<std::string> tokenise(std::string csvLine, char separator)
 */
 
 
-std::vector<std::string> tokenise(const std::string& csvLine, char separator)
-{
-    std::vector<std::string> tokens;
-    std::string token;
-    std::istringstream tokenStream(csvLine);
-    while (std::getline(tokenStream, token, separator))
-    {
-        tokens.push_back(token);
-    }
-    return tokens;
-}
 
 
 int main()
 {
+    // CSVReader reader;
+    // reader.readCSV("assets/20200317.csv");
 
-    std::vector<std::string> tokens;
-
-    std::ifstream csvFile{"assets/20200317.csv"};
-    std::string line;
-    if(csvFile.is_open())
-    {
-        std::cout << "File open" << std::endl;
-        while (std::getline(csvFile, line))
-        {
-            std::cout << "Read line " << line << std::endl;
-            tokens =  tokenise(line, ',');
-            
-            if(tokens.size() != 5){
-                std::cout << "Bad line" << std::endl;
-                continue;
-            }
-            
-            try{
-                double price = std::stod(tokens[3]);
-                double amount = std::stod(tokens[4]);
-                std::cout << price << ":" << amount << std::endl;
-            }catch(std::exception& e){
-                std::cout << "Bad float! " << tokens[3] << " or " << tokens[4] << std::endl;
-                break;
-            }
-        }
-        
-    
-        csvFile.close();
-    }
-    else
-    {
-        std::cerr << "Could not open file" << std::endl;
-    }
-
-
-    CSVReader reader;
-
-    return 0;
+    // CSVReader::readCSV("assets/20200317.csv");
 
     MerkelMain app{};
     app.init();

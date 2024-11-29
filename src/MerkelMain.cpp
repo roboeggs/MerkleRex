@@ -3,6 +3,8 @@
 #include <iostream>
 // #include <map>
 #include <vector>
+#include "CSVReader.h"
+
 
 MerkelMain::MerkelMain() {
     // Инициализация карты в конструкторе
@@ -17,9 +19,11 @@ MerkelMain::MerkelMain() {
 void MerkelMain::init() {
     
     
-    for(OrderBookEntry& order: orders){
-        std::cout << order.amount << std::endl;
-    }
+    // for(OrderBookEntry& order: orders){
+    //     std::cout << order.amount << std::endl;
+    // }
+
+    loadOrderBook();
 
     while (true)
     {   
@@ -37,19 +41,7 @@ void MerkelMain::init() {
 
 void MerkelMain::loadOrderBook()
 {
-    orders.push_back(
-        OrderBookEntry{5319.450228, 0.00020075, 
-            "2020/03/17 17:01:24.884492", 
-            "BTC/USDT", 
-            OrderBookType::ask}
-    );
-
-    orders.push_back(
-        OrderBookEntry{0.02187308, 7.44564869, 
-        "2020/03/17 17:01:24.884492", 
-        "ETH/BTC", 
-        OrderBookType::bid}
-    );
+    orders = CSVReader::readCSV("assets/20200317.csv");
 }
 
 void MerkelMain::printMenu() {
@@ -75,6 +67,18 @@ void MerkelMain::printHelp() {
 
 void MerkelMain::printMarketStats() {
     std::cout << "OrderBook contains: " << orders.size() << " entries" << std::endl;
+    unsigned int bids = 0;
+    unsigned int asks = 0;
+    for(OrderBookEntry& e : orders)
+    {
+        if (e.orderType == OrderBookType::ask){
+            asks++;
+        }
+        if (e.orderType == OrderBookType::bid){
+            bids++;
+        }
+    }
+    std::cout << "OrderBook asks: " << asks << " bids: " << bids << std::endl;
 }
 
 void MerkelMain::enterOffer() {
