@@ -16,15 +16,9 @@ MerkelMain::MerkelMain() {
     menu[6] = &MerkelMain::gotoNextTimeframe;
 }
 
-void MerkelMain::init() {
+void MerkelMain::init() 
+{
     
-    
-    // for(OrderBookEntry& order: orders){
-    //     std::cout << order.amount << std::endl;
-    // }
-
-    loadOrderBook();
-
     while (true)
     {   
         printMenu();
@@ -39,10 +33,6 @@ void MerkelMain::init() {
     }
 }
 
-void MerkelMain::loadOrderBook()
-{
-    orders = CSVReader::readCSV("assets/20200317.csv");
-}
 
 void MerkelMain::printMenu() {
     // 1 print help
@@ -66,19 +56,28 @@ void MerkelMain::printHelp() {
 }
 
 void MerkelMain::printMarketStats() {
-    std::cout << "OrderBook contains: " << orders.size() << " entries" << std::endl;
-    unsigned int bids = 0;
-    unsigned int asks = 0;
-    for(OrderBookEntry& e : orders)
+    for(std::string const p : orderBook.getKnownProducts())
     {
-        if (e.orderType == OrderBookType::ask){
-            asks++;
-        }
-        if (e.orderType == OrderBookType::bid){
-            bids++;
-        }
+        std::cout << "Product: " << p << std::endl;
+        std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::ask, 
+                                                                    p, "2020/03/17 17:01:24.884492");
+        std::cout << "Asks seen: " << entries.size() << std::endl;
+        std::cout << "Max ask: " << OrderBook::getHighPrice(entries) << std::endl;
+        std::cout << "Min ask: " << OrderBook::getLowPrice(entries) << std::endl;
     }
-    std::cout << "OrderBook asks: " << asks << " bids: " << bids << std::endl;
+    // std::cout << "OrderBook contains: " << orders.size() << " entries" << std::endl;
+    // unsigned int bids = 0;
+    // unsigned int asks = 0;
+    // for(OrderBookEntry& e : orders)
+    // {
+    //     if (e.orderType == OrderBookType::ask){
+    //         asks++;
+    //     }
+    //     if (e.orderType == OrderBookType::bid){
+    //         bids++;
+    //     }
+    // }
+    // std::cout << "OrderBook asks: " << asks << " bids: " << bids << std::endl;
 }
 
 void MerkelMain::enterOffer() {
