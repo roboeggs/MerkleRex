@@ -5,6 +5,7 @@
 #include "OrderBookEntry.h"
 
 #include "OrderBook.h"
+#include "Wallet.h"
 
 class MerkelMain
 {
@@ -25,6 +26,8 @@ private:
 
     // OrderBook orderBook{"assets/20200317.csv"};
     OrderBook orderBook{"assets/test.csv"};
+
+    Wallet Wallet{};
 
 public:
     MerkelMain();

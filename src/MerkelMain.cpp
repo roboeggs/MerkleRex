@@ -20,6 +20,8 @@ void MerkelMain::init()
 {
     
     currentTime = orderBook.getEarliestTime();
+
+    Wallet.insertCurrency("BTC", 10);
     while (true)
     {   
         printMenu();
