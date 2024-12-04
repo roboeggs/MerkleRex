@@ -21,6 +21,8 @@ private:
     void gotoNextTimeframe();
     int getUserOption();
 
+    std::string currentTime;
+
     OrderBook orderBook{"assets/20200317.csv"};
 
 public:
