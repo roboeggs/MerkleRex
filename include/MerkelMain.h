@@ -15,7 +15,7 @@ private:
     void printMenu();
     void printHelp();
     void printMarketStats();           
-    void enterOffer();
+    void enterAsk();
     void enterBid();
     void printWallet();
     void gotoNextTimeframe();
@@ -23,7 +23,8 @@ private:
 
     std::string currentTime;
 
-    OrderBook orderBook{"assets/20200317.csv"};
+    // OrderBook orderBook{"assets/20200317.csv"};
+    OrderBook orderBook{"assets/test.csv"};
 
 public:
     MerkelMain();

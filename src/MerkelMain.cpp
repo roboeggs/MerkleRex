@@ -10,7 +10,7 @@ MerkelMain::MerkelMain() {
     // Инициализация карты в конструкторе
     menu[1] = &MerkelMain::printHelp;
     menu[2] = &MerkelMain::printMarketStats;
-    menu[3] = &MerkelMain::enterOffer;
+    menu[3] = &MerkelMain::enterAsk;
     menu[4] = &MerkelMain::enterBid;
     menu[5] = &MerkelMain::printWallet;
     menu[6] = &MerkelMain::gotoNextTimeframe;
@@ -83,8 +83,38 @@ void MerkelMain::printMarketStats() {
     // std::cout << "OrderBook asks: " << asks << " bids: " << bids << std::endl;
 }
 
-void MerkelMain::enterOffer() {
-    std::cout << "Make an offer - enter the amount" << std::endl;
+void MerkelMain::enterAsk() {
+    std::cout << "Make an ask - enter the amount: product,price,amount eg ETH/BTC,200,0.5" << std::endl;
+    std::string input;
+
+    std::getline(std::cin, input);
+
+    std::vector<std::string> tokens = CSVReader::tokenise(input, ',');
+    if (tokens.size() != 3)
+    {
+        std::cout << "MerkelMain::enterAsk Bad input! " << input << std::endl;
+    }
+    else
+    {
+        try
+        {
+            OrderBookEntry obe = CSVReader::stringsToOBE(
+                        tokens[1],
+                        tokens[2],
+                        currentTime,
+                        tokens[0],
+                        OrderBookType::ask
+                    );
+                    orderBook.insertOrder(obe);
+        }
+        catch (const std::exception& e)
+        {
+            std::cout << "MerkelMain::enterAsk Bad input " << std::endl;
+        }
+        
+    }
+
+    std::cout << "You typed: " << input << std::endl;
 }
 
 void MerkelMain::enterBid() {
@@ -97,17 +127,31 @@ void MerkelMain::printWallet() {
 
 void MerkelMain::gotoNextTimeframe() {
     std::cout << "Going to next time frame." << std::endl;
+    std::vector<OrderBookEntry> sales = orderBook.matchAsksToBids("ETH/BTC", currentTime);
+    std::cout << "Sales: " << sales.size() << std::endl;
+    for (OrderBookEntry& sale : sales)
+    {
+        std::cout << "Sale price: " << sale.price << " amount " << sale.amount << std::endl;
+    }
     currentTime = orderBook.getNextTime(currentTime);
 }
 
 int MerkelMain::getUserOption() {
     std::cout << "Type in 1-6" << std::endl;
-    int userOption;
-    std::cin >> userOption;
-    
-    if (std::cin.fail() || userOption < 1 || userOption > 6) {
-        std::cin.clear(); 
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    int userOption{0};
+    std::string line;
+    // std::cin >> userOption;
+    std::getline(std::cin, line);
+    try
+    {
+        userOption = std::stoi(line);
+    }
+    catch(const std::exception& e)
+    {
+        //
+    }
+
+    if ( userOption < 1 || userOption > 6) {
         std::cout << "Invalid input. Please enter a number between 1 and 6." << std::endl;
         return -1; 
     }
