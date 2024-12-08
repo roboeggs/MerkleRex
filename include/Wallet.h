@@ -19,6 +19,10 @@ public:
 
     /** checks if the wallet can cope with this ask or bid. */
     bool canFulfillOrder(OrderBookEntry order);
+    /** update the contens of the wallet
+     * assumes the order was made by the owner of the waller
+     */
+    void processSale(OrderBookEntry& sale);
 
     ~Wallet();
 };

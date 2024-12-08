@@ -87,8 +87,38 @@ bool Wallet::canFulfillOrder(OrderBookEntry order)
     {
         double amount = order.amount * order.price;
         std::string currency = currs[1];
+        std::cout << "Wallet::canFulfillOrder " << currency << " : " << amount << std::endl;
+        return containsCurrency(currency, amount);
     }
     return false;
+}
+
+void Wallet::processSale(OrderBookEntry& sale)
+{
+    std::vector<std::string> currs = CSVReader::tokenise(sale.product, '/');
+    // ask 
+    if (sale.orderType == OrderBookType::asksale)
+    {
+        double outgoingAmount = sale.amount;
+        std::string outgoingCurrency = currs[0];
+        double incomingAmount = sale.amount * sale.price;
+        std::string incomingCurrency = currs[1];
+
+        currencies[incomingCurrency] += incomingAmount;
+        currencies[outgoingCurrency] -= outgoingAmount;
+    }
+    // bid
+    if (sale.orderType == OrderBookType::bidsale)
+    {
+        double incomingAmount = sale.amount;
+        std::string incomingCurrency = currs[0];
+        double outgoingAmount = sale.amount * sale.price;
+        std::string outgoingCurrency = currs[1];
+
+        currencies[incomingCurrency] += incomingAmount;
+        currencies[outgoingCurrency] -= outgoingAmount;
+    }
+
 }
 
 Wallet::~Wallet()

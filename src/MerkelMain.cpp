@@ -107,7 +107,8 @@ void MerkelMain::enterAsk() {
                         tokens[0],
                         OrderBookType::ask
                     );
-                    orderBook.insertOrder(obe);
+                    obe.username = "simuser";
+                    // orderBook.insertOrder(obe);
                     if (wallet.canFulfillOrder(obe))
                     {
                         std::cout << "Wallet looks good." << std::endl;
@@ -183,6 +184,11 @@ void MerkelMain::gotoNextTimeframe() {
     for (OrderBookEntry& sale : sales)
     {
         std::cout << "Sale price: " << sale.price << " amount " << sale.amount << std::endl;
+        if (sale.username == "simuser")
+        {
+            // update the wallet
+            wallet.processSale(sale);
+        }
     }
     currentTime = orderBook.getNextTime(currentTime);
 }

@@ -24,8 +24,8 @@ private:
 
     std::string currentTime;
 
-    // OrderBook orderBook{"assets/20200317.csv"};
-    OrderBook orderBook{"assets/test.csv"};
+    OrderBook orderBook{"assets/20200317.csv"};
+    // OrderBook orderBook{"assets/test.csv"};
 
     Wallet wallet{};
 

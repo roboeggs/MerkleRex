@@ -6,7 +6,7 @@
 #include <string>
 #include <algorithm>
 
-enum class OrderBookType { bid, ask, unknown, sale };
+enum class OrderBookType { bid, ask, unknown, asksale, bidsale };
 
 class OrderBookEntry {
 public:
@@ -15,12 +15,14 @@ public:
     std::string timestamp;
     std::string product;
     OrderBookType orderType;
+    std::string username;
 
-    OrderBookEntry(double price,
-                   double amount,
-                   std::string timestamp,
-                   std::string product,
-                   OrderBookType orderType);
+    OrderBookEntry( double _price,
+                    double _amount,
+                    std::string _timestamp,
+                    std::string _product,
+                    OrderBookType _orderType,
+                    std::string _username = "dataset");
 
     static OrderBookType stringToOrderBookType(std::string s);
 
