@@ -27,7 +27,7 @@ private:
     // OrderBook orderBook{"assets/20200317.csv"};
     OrderBook orderBook{"assets/test.csv"};
 
-    Wallet Wallet{};
+    Wallet wallet{};
 
 public:
     MerkelMain();
